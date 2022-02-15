@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404
-
 from rest_framework import exceptions, filters, permissions, viewsets
 from rest_framework.pagination import LimitOffsetPagination
 
@@ -33,6 +32,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 class FollowViewSet(viewsets.ModelViewSet):
+    http_method_names = ['get', 'post']
     serializer_class = FollowSerializer
     permission_classes = [permissions.IsAuthenticated,
                           IsOwnerOrReadOnly]
@@ -50,6 +50,7 @@ class FollowViewSet(viewsets.ModelViewSet):
             User,
             username=serializer.initial_data['following']
         )
+
         if following == self.request.user:
             raise exceptions.ValidationError(
                 'Подписка на самого себя запрещена.'

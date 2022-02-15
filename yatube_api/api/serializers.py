@@ -65,10 +65,6 @@ class PostSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         instance.text = validated_data.get('text', instance.text)
-
-        if 'group' in self.initial_data:
-            group = self.initial_data['group']
-            instance.group = Group.objects.get(pk=group)
-
         instance.save()
+
         return instance
